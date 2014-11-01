@@ -1,10 +1,7 @@
 angular.module('bathHackApp')
     .service('expenseService', ['$http', function ($http) {
 
-        var pageSize = 10;
-        var firstPage = 1;
-
-        var urlBase = '/api/users/';
+        var urlBase = '/api/companies/';
 
         this.dataFields = [
             'BodyName',
@@ -20,37 +17,13 @@ angular.module('bathHackApp')
 
         this.getExpenseData = function(year, month, company) {
             // return expense data
-            return [
-                {
-                    'id': 1,
-                    'BodyName': 'BANES',
-                    'TransactionNumber': '001',
-                    'AccountCodeDescription': 'SCA!',
-                    'ExpensesType': 'Hotels',
-                    'ServiceCode': 'BABA',
-                    'ServiceAreaCategorisation': 'SCA1',
-                    'SupplierName': 'UK pertole',
-                    'Date': '28/10/89',
-                    'Amount': 189, // pounds format
-                    'Votes': 0
-                },
-                {
-                    'id': 2,
-                    'BodyName': 'BANES',
-                    'TransactionNumber': '002',
-                    'AccountCodeDescription': 'SCA2',
-                    'ExpensesType': 'Cars',
-                    'ServiceCode': 'BABA',
-                    'ServiceAreaCategorisation': 'SCA1',
-                    'SupplierName': 'bath comp',
-                    'Date': '31/10/89',
-                    'Amount': 2700,
-                    'Votes': 0
-                },
-            ]
-            //return $http.get(urlBase + id);
+            yearToUse = year || '';
+            monthToUse = month || '';
+            companyToUse = company || '';
+            return $http.get(urlBase + '?SupplierName=' + companyToUse + '&Year=' + yearToUse + '&Month=' + monthToUse);
         };
 
+        //?supplierName=CONSTRUCTION%20SERVICES&year=2014
         this.upVoteExpense = function(index, votes) {
             // update index
             //return $http.put(urlBase + index + "/",  { 'Votes': votes += 1});

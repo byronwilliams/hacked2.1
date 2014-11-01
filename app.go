@@ -56,8 +56,8 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
         q["Month"] = r.Form.Get("Month")
     }
 
-    var err2 = c.Find(q).All(&result)
-    fmt.Println(result)
+    var err2 = c.Find(q).Limit(100).All(&result)
+    //fmt.Println(result)
 
     if err2 != nil {
         fmt.Println(err2)
