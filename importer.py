@@ -13,7 +13,7 @@ def run_import():
 
     docs = []
 
-    for f in files:
+    for f in [files[0]]:
         with open("data/" + f, "rb") as csvfile:
             reader = csv.reader(csvfile)
 
@@ -38,7 +38,8 @@ def run_import():
                             date_parts[0] = "20" + date_parts[0]
 
                         if len(date_parts) == 3:
-                            doc["Date"] = datetime.date(*[int(x) for x in date_parts]).strftime(DATEFMT)
+                            doc["Year"] = date_parts[0]
+                            doc["Month"] = date_parts[1]
 
                     elif "Payment Date" in doc.keys():
                         date_parts = doc["Payment Date"].split("/")
@@ -48,7 +49,8 @@ def run_import():
                             date_parts[0] = "20" + date_parts[0]
 
                         if len(date_parts) == 3:
-                            doc["Date"] = datetime.date(*[int(x) for x in date_parts]).strftime(DATEFMT)
+                            doc["Year"] = date_parts[0]
+                            doc["Month"] = date_parts[1]
 
                     doc["Votes"] = 0
                     docs.append(doc)
