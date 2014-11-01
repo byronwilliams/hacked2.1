@@ -13,7 +13,7 @@ def run_import():
 
     docs = []
 
-    for f in [files[0]]:
+    for f in files:
         with open("data/" + f, "rb") as csvfile:
             reader = csv.reader(csvfile)
 

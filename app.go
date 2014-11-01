@@ -42,31 +42,29 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
     r.ParseForm()
 
     var result = []Transaction{}
+    var q = bson.M{}
 
-    if len(r.Form.Get("supplierName")) > 0 {
-        var q = c.Find(bson.M{"SupplierName": r.Form.Get("supplierName")})
-
-        if(len(r.Form.Get("year")) > 0) {
-            fmt.Println(r.Form.Get("year"))
-            q = c.Find(bson.M{"Year": r.Form.Get("year")})
-        }
-
-        if(len(r.Form.Get("month")) > 0) {
-            fmt.Println(r.Form.Get("month"))
-            q = c.Find(bson.M{"Month": r.Form.Get("month")})
-        }
-
-
-        var err2 = q.All(&result)
-        fmt.Println(result)
-
-        if err2 != nil {
-            fmt.Println(err2)
-        }
-
-        var indented, _ = json.MarshalIndent(result, "", "  ")
-        fmt.Fprintf(w, "%s\n", indented)
+    if len(r.Form.Get("SupplierName")) > 0 {
+        q["SupplierName"] = r.Form.Get("SupplierName")
     }
+
+    if len(r.Form.Get("Year")) > 0 {
+        q["Year"] = r.Form.Get("Year")
+    }
+
+    if len(r.Form.Get("Month")) > 0 {
+        q["Month"] = r.Form.Get("Month")
+    }
+
+    var err2 = c.Find(q).All(&result)
+    fmt.Println(result)
+
+    if err2 != nil {
+        fmt.Println(err2)
+    }
+
+    var indented, _ = json.MarshalIndent(result, "", "  ")
+    fmt.Fprintf(w, "%s\n", indented)
 }
 
 func serveSingle(pattern string, filename string) {
