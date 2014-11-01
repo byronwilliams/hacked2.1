@@ -42,7 +42,7 @@ angular.module('bathHackApp')
                     'ExpensesType': 'Cars',
                     'ServiceCode': 'BABA',
                     'ServiceAreaCategorisation': 'SCA1',
-                    'SupplierName': 'UK pertole',
+                    'SupplierName': 'bath comp',
                     'Date': '31/10/89',
                     'Amount': 2700,
                     'Votes': 0
