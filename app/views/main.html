@@ -1,0 +1,52 @@
+<div class="jumbotron">
+  <h1>What Bath Spends it's Money on</h1>
+</div>
+
+<div>
+  {{ tabNum }}
+</div>
+<div class="row">
+   <span class="col-md-2">
+    TransactionNumber
+   </span>
+   <span class="col-md-2">
+    ExpensesType
+   </span>
+   <span class="col-md-2">
+    SupplierName
+   </span>
+   <span class="col-md-2">
+    Date
+   </span>
+   <span class="col-md-2">
+    Amount
+   </span>
+   <span class="col-md-1">
+    Votes
+   </span>
+   <span class="col-md-1">
+    Highlight
+   </span>
+</div>
+
+<div class="row" ng-repeat="expense in expenses | orderBy:['Votes', 'Date']:true">
+     <span class="col-md-2">
+      {{ expense.TransactionNumber }}
+     </span>
+     <span class="col-md-2">
+      {{ expense.ExpensesType }}
+     </span>
+     <span class="col-md-2">
+      {{ expense.SupplierName }}
+     </span>
+     <span class="col-md-2">
+      {{ expense.Date }}
+     </span>
+     <span class="col-md-2">
+      {{ expense.Amount }}
+     </span>
+     <span class="col-md-1">
+      {{ expense.Votes || 0 }}
+     </span>
+     <span ng-click="upVote(expense)" class="glyphicon glyphicon-plus col-md-1"></span>
+</div>
