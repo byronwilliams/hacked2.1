@@ -31,6 +31,7 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
             $scope.selectedYear = null;
             $scope.selectedMonth = null;
             $location.path('/');
+            $scope.search();
         };
 
         $scope.search = function() {
@@ -38,6 +39,13 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
             expenseService.getExpenseData($scope.selectedYear, $scope.selectedMonth, $scope.company)
             .success(function(data) {
                 $scope.expenses = data;
+
+                var count = 0;
+                $scope.expenses.filter(function (expense) {
+                    count += expense.Amount;
+                });
+                $scope.expenseCount = count;
+
             });
         }
         $scope.search();
