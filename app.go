@@ -57,10 +57,10 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
         q["Month"] = r.Form.Get("Month")
     }
 
-    var err2 = c.Find(q).Limit(100).All(&result)
-
-    if err2 != nil {
-        fmt.Println(err2)
+    if len(r.Form.Get("SupplierName")) > 0 {
+        c.Find(q).All(&result)
+    } else {
+        c.Find(q).Limit(100).All(&result)
     }
 
     var indented, _ = json.MarshalIndent(result, "", "  ")
