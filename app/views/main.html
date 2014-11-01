@@ -59,7 +59,7 @@
      </h4>
   </div>
 
-  <div class="row searchRow" ng-repeat="expense in expenses | orderBy:['Votes', 'Date']:true">
+  <div class="row searchRow" ng-repeat="expense in expenses | orderBy:['Votes', 'Amount']:true">
        <span class="col-md-2">
         {{ expense.TransactionNumber }}
        </span>
