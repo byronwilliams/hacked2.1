@@ -78,9 +78,6 @@ func LtdCompaniesHandler(w http.ResponseWriter, r *http.Request) {
     c := session.DB("hacked").C("transactions")
 
     var result []string
-    var q = bson.M{}
-
-    q["SupplierName"] = "CAMERTON PARISH COUNCIL"
 
     var err2 = c.Find(nil).Distinct("SupplierName", &result)
     fmt.Println(len(result))

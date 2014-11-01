@@ -29,7 +29,7 @@
 
 <div ng-show="company">
   <div class="row">
-    <h3>Total Spent <span class="label label-default">£ {{ expenseCount | number}}</span></h3> 
+    <h3>Total Spent <span class="label label-default">£ {{ expenseCount | number}}</span></h3>
   </div>
 
 </div>
@@ -66,7 +66,7 @@
        <span class="col-md-2">
         {{ expense.ExpensesType }}
        </span>
-       <a href="#/{{ expense.SupplierName }}" class="cursor col-md-2">
+       <a href="#/companies/{{ expense.SupplierName }}" class="cursor col-md-2">
         {{ expense.SupplierName }}
        </a>
        <span class="col-md-2">

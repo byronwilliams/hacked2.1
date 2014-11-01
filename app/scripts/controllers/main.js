@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the bathHackApp
  */
-angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", "$location", "expenseService", 
+angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", "$location", "expenseService",
     function ($scope, $routeParams, $location, expenseService) {
 
         $scope.years = ['2011', '2012', '2013', '2014'];
@@ -55,4 +55,10 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
             expenseService.upVoteExpense(expense);
         }
 
-}]);
+}])
+.controller("CompaniesListCtrl", function($scope, expenseService) {
+    $scope.companies = [];
+    expenseService.getCompaniesList().success(function(data) {
+        $scope.companies = data.sort();
+    })
+})

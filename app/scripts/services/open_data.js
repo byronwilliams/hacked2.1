@@ -28,4 +28,8 @@ angular.module('bathHackApp')
             // update index
             return $http.post('/api/update/',  expense);
         };
+
+        this.getCompaniesList = function() {
+            return $http.get("/api/ltdcompanies/");
+        }
 }]);
