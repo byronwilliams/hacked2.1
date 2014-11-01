@@ -18,7 +18,7 @@ angular.module('bathHackApp')
             'Amount'
         ]
 
-        this.getExpenseData = function(serviceAreaCat) {
+        this.getExpenseData = function(year, month, company) {
             // return expense data
             return [
                 {

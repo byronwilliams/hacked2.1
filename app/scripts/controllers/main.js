@@ -28,12 +28,11 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
             $scope.results = [];
             $scope.selectedYear = null;
             $scope.selectedMonth = null;
-
         };
 
         $scope.search = function() {
             // search by year and month
-            $scope.results = expenseService.getExpenseData(null);
+            $scope.results = expenseService.getExpenseData($scope.selectedYear, $scope.selectedMonth, null);
         }
 
 }]);
