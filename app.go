@@ -57,7 +57,6 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
     }
 
     var err2 = c.Find(q).All(&result)
-    fmt.Println(result)
 
     if err2 != nil {
         fmt.Println(err2)
