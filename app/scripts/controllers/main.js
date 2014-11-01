@@ -7,22 +7,42 @@
  * # MainCtrl
  * Controller of the bathHackApp
  */
-angular.module('bathHackApp').controller('MainCtrl', ['$scope', 'expenseService', "$routeParams",
-    function ($scope, expenseService, $routeParams) {
+angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", "$location", "expenseService", 
+    function ($scope, $routeParams, $location, expenseService) {
 
-    $scope.fields = expenseService.dataFields
-    $scope.SAC = $routeParams.SAC;
+        $scope.years = ['2012', '2013', '2014'];
+        $scope.months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 
-    /*
-        Make a call to get expense
-    */
-    $scope.getExpenseData = function(){
-        $scope.expenses = expenseService.getExpenseData($scope.SAC);
-    };
-    $scope.getExpenseData();
+        $scope.fields = expenseService.dataFields
+        $scope.company = $routeParams.company;
 
-    $scope.upVote = function(expense) {
-        expense.Votes = expense.Votes + 1;
-        expenseService.upVoteExpense(expense);
-    }
+        $scope.selectYear = function(year) {
+            $scope.selectedYear = year;
+            $scope.search();
+        };
+
+        $scope.selectMonth = function(month) {
+            $scope.selectedMonth = month;
+            $scope.search();
+        };
+
+        $scope.reset = function() {
+            $scope.expenses = [];
+            $scope.selectedYear = null;
+            $scope.selectedMonth = null;
+            $location.path('/');
+        };
+
+        $scope.search = function() {
+            // search by year and month
+            $scope.expenses = expenseService.getExpenseData($scope.selectedYear,
+                                                           $scope.selectedMonth,
+                                                           $scope.company);
+        }
+
+        $scope.upVote = function(expense) {
+            expense.Votes = expense.Votes + 1;
+            expenseService.upVoteExpense(expense);
+        }
+
 }]);
