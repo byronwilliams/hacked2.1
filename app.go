@@ -24,6 +24,7 @@ type Transaction struct {
     BodyName string `bson:"BodyName"`
     Year string `bson:"Year"`
     Month string `bson:"Month"`
+    Votes float32 `bson:"Votes"`
 }
 
 
@@ -55,10 +56,10 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
         q["Month"] = r.Form.Get("Month")
     }
 
-    var err2 = c.Find(q).Limit(100).All(&result)
-
-    if err2 != nil {
-        fmt.Println(err2)
+    if len(r.Form.Get("SupplierName")) > 0 {
+        c.Find(q).All(&result)
+    } else {
+        c.Find(q).Limit(100).All(&result)
     }
 
     var indented, _ = json.MarshalIndent(result, "", "  ")
@@ -92,6 +93,23 @@ func LtdCompaniesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 
+func UpdateHandler(w http.ResponseWriter, r *http.Request) {
+    session, err := mgo.Dial("localhost")
+    if err != nil {
+            panic(err)
+    }
+    defer session.Close()
+    session.SetMode(mgo.Monotonic, true)
+
+    c := session.DB("hacked").C("transactions")
+
+    var t Transaction
+    var decoder = json.NewDecoder(r.Body)
+    decoder.Decode(&t)
+
+    c.Update(bson.M{"_id": t.Id}, t)
+}
+
 func serveSingle(pattern string, filename string) {
     http.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
         http.ServeFile(w, r, filename)
@@ -102,10 +120,8 @@ func main() {
     http.Handle("/", http.FileServer(http.Dir("./app/")))
     http.Handle("/bower_components/", http.FileServer(http.Dir(".")))
     http.HandleFunc("/api/companies/", CompaniesHandler)
-
+    http.HandleFunc("/api/update/", UpdateHandler)
     http.HandleFunc("/api/ltdcompanies/", LtdCompaniesHandler)
-
-    // http.HandleFunc("/", HomeHandler) // homepage
 
     http.ListenAndServe(":8080", nil)
 }

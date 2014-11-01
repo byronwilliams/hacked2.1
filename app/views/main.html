@@ -11,7 +11,7 @@
     </div>
 
     <div class="col-md-2 dropdown">
-      <button class="btn btn-default dropdown-toggle">
+      <button class="btn btn-default dropdown-toggle" ng-class="{'disabled': !selectedYear }">
         {{ selectedMonth || 'Month' }}
       </button>
           <ul class="dropdown-menu">
@@ -25,6 +25,13 @@
         Reset
       </button>
     </div>
+</div>
+
+<div ng-show="company">
+  <div class="row">
+    <h3>Total Spent <span class="label label-default">£ {{ expenseCount | number}}</span></h3> 
+  </div>
+
 </div>
 
 <div class="searchResults">
@@ -52,7 +59,7 @@
      </h4>
   </div>
 
-  <div class="row" ng-repeat="expense in expenses | orderBy:['Votes', 'Date']:true">
+  <div class="row searchRow" ng-repeat="expense in expenses | orderBy:['Votes', 'Amount']:true">
        <span class="col-md-2">
         {{ expense.TransactionNumber }}
        </span>
@@ -66,7 +73,7 @@
         {{ expense.Date }}
        </span>
        <span class="col-md-2">
-        {{ expense.Amount }}
+        £{{ expense.Amount | number}}
        </span>
        <span class="col-md-1">
         {{ expense.Votes || 0}}
