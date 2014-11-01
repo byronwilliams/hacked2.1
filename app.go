@@ -38,7 +38,6 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
 
     c := session.DB("hacked").C("transactions")
 
-
     r.ParseForm()
 
     var result = []Transaction{}
@@ -56,7 +55,7 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
         q["Month"] = r.Form.Get("Month")
     }
 
-    var err2 = c.Find(q).All(&result)
+    var err2 = c.Find(q).Limit(100).All(&result)
 
     if err2 != nil {
         fmt.Println(err2)
@@ -65,6 +64,33 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
     var indented, _ = json.MarshalIndent(result, "", "  ")
     fmt.Fprintf(w, "%s\n", indented)
 }
+
+func LtdCompaniesHandler(w http.ResponseWriter, r *http.Request) {
+    session, err := mgo.Dial("localhost")
+    if err != nil {
+            panic(err)
+    }
+    defer session.Close()
+
+    session.SetMode(mgo.Monotonic, true)
+
+    c := session.DB("hacked").C("transactions")
+
+    var result []string
+    var q = bson.M{}
+
+    q["SupplierName"] = "CAMERTON PARISH COUNCIL"
+
+    var err2 = c.Find(nil).Distinct("SupplierName", &result)
+    fmt.Println(len(result))
+    if err2 != nil {
+        fmt.Println(err2)
+    }
+
+    var indented, _ = json.MarshalIndent(result, "", "  ")
+    fmt.Fprintf(w, "%s\n", indented)
+}
+
 
 func serveSingle(pattern string, filename string) {
     http.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
@@ -76,6 +102,8 @@ func main() {
     http.Handle("/", http.FileServer(http.Dir("./app/")))
     http.Handle("/bower_components/", http.FileServer(http.Dir(".")))
     http.HandleFunc("/api/companies/", CompaniesHandler)
+
+    http.HandleFunc("/api/ltdcompanies/", LtdCompaniesHandler)
 
     // http.HandleFunc("/", HomeHandler) // homepage
 
