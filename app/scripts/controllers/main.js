@@ -37,13 +37,13 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
             // search by year and month
             expenseService.getExpenseData($scope.selectedYear, $scope.selectedMonth, $scope.company)
             .success(function(data) {
-                console.log(data)
                 $scope.expenses = data;
             });
         }
         $scope.search();
+
         $scope.upVote = function(expense) {
-            expense.Votes = expense.Votes + 1;
+            expense.Votes += 1;
             expenseService.upVoteExpense(expense);
         }
 

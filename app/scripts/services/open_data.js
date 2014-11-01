@@ -24,12 +24,8 @@ angular.module('bathHackApp')
         };
 
         //?supplierName=CONSTRUCTION%20SERVICES&year=2014
-        this.upVoteExpense = function(index, votes) {
+        this.upVoteExpense = function(expense) {
             // update index
-            //return $http.put(urlBase + index + "/",  { 'Votes': votes += 1});
-
+            return $http.post('/api/update/',  expense);
         };
-
-
-
 }]);
