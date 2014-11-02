@@ -38,6 +38,6 @@ angular.module('bathHackApp')
             yearToUse = year || '';
             monthToUse = month || '';
             companyToUse = company || '';
-            return $http.get("/api/distances" + '?SupplierName=' + companyToUse + '&Year=' + yearToUse + '&Month=' + monthToUse);
+            return $http.get("/api/distances/" + '?SupplierName=' + companyToUse + '&Year=' + yearToUse + '&Month=' + monthToUse);
         }
 }]);

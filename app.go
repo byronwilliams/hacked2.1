@@ -69,9 +69,8 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
         q["Month"] = r.Form.Get("Month")
     }
 
-    fmt.Println((len(r.Form.Get("Year")) > 0 && len(r.Form.Get("Month")) > 0))
-    if len(r.Form.Get("SupplierName")) > 0 || (len(r.Form.Get("Year")) > 0 && len(r.Form.Get("Month")) > 0) {
-        c.Find(q).All(&result)
+    if len(r.Form.Get("SupplierName")) > 0 {
+        c.Find(q).Limit(1000).All(&result)
     } else {
         c.Find(q).Limit(100).All(&result)
     }

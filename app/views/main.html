@@ -29,18 +29,6 @@
 
 </div>
 
-<div>
-  <div class="row">
-    <div ng-show="company" class="col-xs-9">
-      <highchart id="chart1" config="chartConfig"></highchart>
-    </div>
-    <div class="col-xs-3">
-      <highchart id="chart1" config="distanceChartConfig"></highchart>
-    </div>
-  </div>
-</div>
-
-
 <div class="searchBar">
     <form name="searchForm">
       <input type="text"
@@ -59,7 +47,16 @@
   <h3>Total Spent <span class="label label-default">£ {{ expenseCount | number}}</span></h3>
 </div>
 
-<highchart ng-show="company" id="chart1" config="chartConfig"></highchart>
+<div>
+  <div class="row">
+    <div ng-show="company" class="col-xs-12">
+      <highchart id="chart1" config="chartConfig"></highchart>
+    </div>
+    <div ng-show="!company" class="col-xs-12">
+      <highchart id="chart2" config="distanceChartConfig"></highchart>
+    </div>
+  </div>
+</div>
 
 <div class="row searchResults">
   <div class="row">
@@ -89,7 +86,7 @@
      </h4>
   </div>
 
-  <div class="row searchRow" ng-repeat="expense in expenses | orderBy:['TransactionNumber', 'Votes', 'Amount']:true">
+  <div class="row searchRow" ng-repeat="expense in expenses | orderBy:['Votes', 'Amount']:true">
        <span class="col-md-2">
         {{ expense.TransactionNumber }}
        </span>
