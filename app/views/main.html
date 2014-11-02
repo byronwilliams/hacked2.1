@@ -48,7 +48,7 @@
   <h3>Total Spent <span class="label label-default">£ {{ expenseCount | number}}</span></h3>
 </div>
 
-<highchart id="chart1" config="chartConfig"></highchart>
+<highchart ng-show="company" id="chart1" config="chartConfig"></highchart>
 
 <div class="row searchResults">
   <div class="row">
