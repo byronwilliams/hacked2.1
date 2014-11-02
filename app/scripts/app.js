@@ -16,6 +16,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'highcharts-ng',
     'ui.bootstrap',
   ])
   .config(function ($routeProvider) {
