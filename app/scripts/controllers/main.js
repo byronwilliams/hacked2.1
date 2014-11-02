@@ -90,7 +90,7 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
         $scope.selectSupplier= function(supplier) {
             $scope.company = supplier;
             $scope.suggestions = [];
-            $scope.search();
+            $location.path('companies/' + supplier);
         }
 
         $scope.companies = [];
