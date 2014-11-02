@@ -42,13 +42,12 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams",
         };
 
         $scope.compareDates = function(a,b) {
-          if (a[0] < b[0])
+          if (a.Year + a.Month < b.Year + b.Month)
              return -1;
-          if (a[0] > b[0])
+          if (a.Year + a.Month > b.Year + b.Month)
             return 1;
           return 0;
         }
-
 
         $scope.search = function() {
             // search by year and month
@@ -62,16 +61,31 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams",
                 });
                 $scope.expenseCount = count;
 
+                var reducedAmounts = {};
                 var amounts = $scope.expenses.filter(function(expense){
-                    return expense['Year'] && expense['Month']
+                    return expense['Year'] && expense['Month'] && expense['Year'].length > 2
 
-                }).map(function (expense) {
-                    return [Date.UTC(expense['Year'], expense['Month'], 1), expense['Amount']]
+                }).sort($scope.compareDates);
+
+                amounts.map(function (expense) {
+                    var key = expense['Year'] + expense['Month'] + 1;
+                    if (reducedAmounts[key]) {
+                        reducedAmounts[key].amount += expense['Amount']
+                    } else {
+                        reducedAmounts[key] = {
+                            'amount': expense['Amount'],
+                            'year': expense['Year'],
+                            'month': expense['Month']
+                        }
+                    }
                 });
 
-                // TODO reduce 
+                var superReducedAmounts = Object.keys(reducedAmounts).map(function(key) {
+                    var item = reducedAmounts[key];
+                    return [Date.UTC(item['year'], item['month'], 1), item['amount']]
+                });
                 $scope.chartConfig.series = [{
-                    data: amounts.sort($scope.compareDates)
+                    data: superReducedAmounts
                 }]
             });
         }
@@ -112,8 +126,8 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams",
         xAxis: {
             type: 'datetime',
             dateTimeLabelFormats: { // don't display the dummy year
-                month: '%b',
-                //year: '%b'
+                month: '%e. %b',
+                year: '%b'
             },
             title: {
                 text: 'Date'
