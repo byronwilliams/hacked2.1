@@ -25,6 +25,7 @@ type Transaction struct {
     Year string `bson:"Year"`
     Month string `bson:"Month"`
     Votes float32 `bson:"Votes"`
+    Distance float32 `bson:"distance"`
 }
 
 
@@ -38,7 +39,6 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
     session.SetMode(mgo.Monotonic, true)
 
     c := session.DB("hacked").C("transactions")
-
 
     r.ParseForm()
 
@@ -66,6 +66,30 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
     var indented, _ = json.MarshalIndent(result, "", "  ")
     fmt.Fprintf(w, "%s\n", indented)
 }
+
+func LtdCompaniesHandler(w http.ResponseWriter, r *http.Request) {
+    session, err := mgo.Dial("localhost")
+    if err != nil {
+            panic(err)
+    }
+    defer session.Close()
+
+    session.SetMode(mgo.Monotonic, true)
+
+    c := session.DB("hacked").C("transactions")
+
+    var result []string
+
+    var err2 = c.Find(nil).Distinct("SupplierName", &result)
+    fmt.Println(len(result))
+    if err2 != nil {
+        fmt.Println(err2)
+    }
+
+    var indented, _ = json.MarshalIndent(result, "", "  ")
+    fmt.Fprintf(w, "%s\n", indented)
+}
+
 
 func UpdateHandler(w http.ResponseWriter, r *http.Request) {
     session, err := mgo.Dial("localhost")
@@ -95,8 +119,7 @@ func main() {
     http.Handle("/bower_components/", http.FileServer(http.Dir(".")))
     http.HandleFunc("/api/companies/", CompaniesHandler)
     http.HandleFunc("/api/update/", UpdateHandler)
-
-    // http.HandleFunc("/", HomeHandler) // homepage
+    http.HandleFunc("/api/ltdcompanies/", LtdCompaniesHandler)
 
     http.ListenAndServe(":8080", nil)
 }

@@ -29,9 +29,7 @@ angular.module('bathHackApp')
             return $http.post('/api/update/',  expense);
         };
 
-        this.searchSupplier = function(search) {
-            return $http.get('/api/search/'+ '?SupplierName=' + search.toUpperCase());
+        this.getCompaniesList = function() {
+            return $http.get("/api/ltdcompanies/");
         }
-
-
 }]);

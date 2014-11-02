@@ -10,8 +10,8 @@
  * # MainCtrl
  * Controller of the bathHackApp
  */
-angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", "$location", "expenseService", 
-    function ($scope, $routeParams, $location, expenseService) {
+angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", "$location", "expenseService",  "$filter",
+    function ($scope, $routeParams, $location, expenseService, $filter) {
 
         $scope.years = ['2011', '2012', '2013', '2014'];
         $scope.months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
@@ -80,16 +80,43 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
         }
 
         $scope.companySearch = function() {
-            expenseService.searchSupplier($scope.searchText).then(function (data) {
-                $scope.suggestions = data['data'];
-            });
+            if ($scope.searchText) {
+                $scope.suggestions = $filter("pgFullText")($scope.companies, $scope.searchText).slice(0,10)
+            } else {
+                $scope.suggestions = [];
+            }
         }
 
         $scope.selectSupplier= function(supplier) {
-            console.log(supplier)
-            console.log('clicking')
             $scope.company = supplier;
+            $scope.suggestions = [];
             $scope.search();
         }
 
+        $scope.companies = [];
+        expenseService.getCompaniesList().success(function(data) {
+            $scope.companies = data.sort();
+        })
+
+
+}])
+.controller("CompaniesListCtrl", function($scope, expenseService) {
+    $scope.companies = [];
+    expenseService.getCompaniesList().success(function(data) {
+        $scope.companies = data.sort();
+    })
+})
+.filter("pgFullText", [function() {
+    return function(companys, searchParam) {
+        var words = searchParam.split(" ");
+
+        var filterFn = function(company) {
+            return words.reduce(function(result, word) {
+                var re = new RegExp(word, "ig");
+                return result && re.test(company);
+            }, true);
+        }
+
+        return companys.filter(filterFn);
+    };
 }]);

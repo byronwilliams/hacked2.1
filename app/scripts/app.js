@@ -24,7 +24,11 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/:company', {
+      .when('/companies', {
+        templateUrl: 'views/list.html',
+        controller: 'CompaniesListCtrl'
+      })
+      .when('/companies/:company', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })

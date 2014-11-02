@@ -59,11 +59,14 @@
      <h4 class="col-md-2">
       Supplier
      </h4>
-     <h4 class="col-md-2">
+     <h4 class="col-md-1">
       Date
      </h4>
      <h4 class="col-md-2">
       Amount
+     </h4>
+     <h4 class="col-md-1">
+      Distance
      </h4>
      <h4 class="col-md-1">
       Votes
@@ -80,14 +83,17 @@
        <span class="col-md-2">
         {{ expense.ExpensesType }}
        </span>
-       <a href="#/{{ expense.SupplierName }}" class="cursor col-md-2">
+       <a href="#/companies/{{ expense.SupplierName }}" class="cursor col-md-2">
         {{ expense.SupplierName }}
        </a>
-       <span class="col-md-2">
+       <span class="col-md-1">
         {{ expense.Date }}
        </span>
        <span class="col-md-2">
-        £{{ expense.Amount | number}}
+        &pound;{{ expense.Amount | number}}
+       </span>
+       <span class="col-md-1">
+        {{ expense.Distance | number}}
        </span>
        <span class="col-md-1">
         {{ expense.Votes || 0}}
