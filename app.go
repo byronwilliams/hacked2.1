@@ -25,6 +25,7 @@ type Transaction struct {
     Year string `bson:"Year"`
     Month string `bson:"Month"`
     Votes float32 `bson:"Votes"`
+    Distance float32 `bson:"distance"`
 }
 
 
