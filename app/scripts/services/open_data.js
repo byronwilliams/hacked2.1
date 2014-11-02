@@ -1,7 +1,7 @@
 angular.module('bathHackApp')
     .service('expenseService', ['$http', function ($http) {
 
-        var urlBase = 'http://expose.112percent.com:8080/api/companies/';
+        var urlBase = '/api/companies/';
 
         this.dataFields = [
             'BodyName',
@@ -26,10 +26,10 @@ angular.module('bathHackApp')
         //?supplierName=CONSTRUCTION%20SERVICES&year=2014
         this.upVoteExpense = function(expense) {
             // update index
-            return $http.post('http://expose.112percent.com:8080/api/update/',  expense);
+            return $http.post('/api/update/',  expense);
         };
 
         this.getCompaniesList = function() {
-            return $http.get("http://expose.112percent.com:8080/api/ltdcompanies/");
+            return $http.get("/api/ltdcompanies/");
         }
 }]);
