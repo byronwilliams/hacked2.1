@@ -58,7 +58,7 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams",
 
                 var count = 0;
                 $scope.expenses.filter(function (expense) {
-                    count += expense.Amount / 100;
+                    count += expense.Amount;
                 });
                 $scope.expenseCount = count;
 
@@ -159,12 +159,7 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams",
             pointFormat: '{point.x:%e. %b}: {point.y:.2f} m'
         },
 
-
         series: [{
-            name: 'Winter 2007-2008',
-            // Define the data points. All series have a dummy year
-            // of 1970/71 in order to be compared on the same x axis. Note
-            // that in JavaScript, months start at 0 for January, 1 for February etc.
             data: []
         }]
 
