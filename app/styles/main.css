@@ -1,91 +1,3 @@
-/* Space out content a bit */
-body {
-  padding-bottom: 20px;
-}
-
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-}
-/* Make the masthead heading the same height as the navigation */
-.header h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 40px;
-  padding-bottom: 19px;
-}
-
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
-
-/* Customize container */
-@media (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
-}
-.container-narrow > hr {
-  margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-}
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
-}
-
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-}
-.marketing p + h4 {
-  margin-top: 28px;
-}
-
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
-}
-
-.searchBar {
-  padding-top: 20px;
-
-}
-.searchResults {
-  padding-top: 40px;
-  height: auto;
-}
-
 .searchRow {
   border-bottom: 2px solid #eee;
   padding-bottom: 5px;
@@ -113,4 +25,207 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+.searchResults{
+	color: #222;
+}
+
+
+
+
+
+body{
+	background: #fafafa!important;
+	color: #222;
+	counter-reset: section;
+	overflow-x:hidden;
+}
+#hero{
+	background: #298ade;
+	color: #fff;
+	height: calc(50vh - 40px);
+	position: relative;
+	overflow: hidden;
+	margin: 0;
+}
+#hero > .inner,
+#hero > .inner h1,
+#hero > .inner img{
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	text-align: center;
+	height: 67.5px;
+	transition: transform .2s, opacity .2s;
+}
+svg#eyelet{
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	outline: 9999px solid rgba(0, 0, 0, 0.3);
+	opacity: 0;
+	transition: opacity 1s, transform .5s;
+}
+.eyelet{
+	fill:rgba(0, 0, 0, 0.3);
+}
+#hero > .inner img{
+	height: 74px;
+	margin-top: 10px;
+}
+#hero:hover > .inner h1{
+	transform: rotateX(90deg);
+}
+#hero > .inner img{
+	transform: rotateX(-90deg);
+}
+#hero:hover svg#eyelet{
+	opacity: 1;
+	transform: scale(2);
+}
+#hero:hover > .inner img{
+	transform: rotateX(0);
+}
+
+.main-wrap::-webkit-scrollbar {
+    width: 14px;
+}
+ 
+.main-wrap::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.20);
+	border-left: rgba(181, 181, 181, 0.26) 1px solid;
+}
+.main-wrap::-webkit-scrollbar-thumb {
+	background: rgba(214, 214, 214, 0.85);
+}
+.sidebar.last{
+	background: #43505d;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 3.5rem;
+	height: calc(100vh - 40px);
+	z-index: 10;
+	overflow: hidden;
+	text-align: center;
+	border-left:1px solid rgba(51, 52, 59, 0.61);
+	margin-top: 40px;
+}
+.pitch{
+	color:#222;
+	height: 50vh;
+}
+.pitch .inner{
+	position: absolute;
+	left: 0;
+	top:0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	height: 141px;
+}
+.sidebar.last ul,
+.sidebar.last ul li{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.sidebar.last ul li{
+	display: block;
+	position: relative;
+	margin-top: .4rem;
+	font-size: 2.2rem;
+	color: rgba(255, 255, 255, 0.8);
+	margin: 1rem 0;
+	transition: color .2s;
+}
+.sidebar.last ul li.active{
+	color: #99EF2D;
+}
+.sidebar.last ul li a{
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top:0;
+	left: 0;
+}
+.sidebar.last ul li:hover{
+	color: rgba(255, 255, 255, 1);
+}
+.sidebar.last ul li.disabled{
+	color: rgba(255, 255, 255, 0.5);
+}
+.footer-container{
+	background: #f0f0f0;
+	color: #222;
+	padding-top: 3rem;
+}
+.searchBar input[type=text],
+section[name="e-marketting"] input[type="text"]{
+	padding: 2rem;
+	width: 50%;
+	height: 51px;
+}
+section[name="e-marketting"] small{
+	width: 50%;
+	display: block;
+	margin: 0 auto;
+}
+section[name="e-marketting"]{
+	margin-bottom: 20px;
+}
+.panel{
+	margin: 20px;
+	padding: .2rem;
+	background: none!important; 
+}
+.searchResults.header .row:first-child{
+	border-bottom: 2px solid #4E5D6C!important;
+}
+.searchRow{
+	padding: 1rem!important;
+}
+ul.suggestions{
+	color: #222;
+	padding: 0;
+	border: 0;
+	outline: 1px solid #ccc;
+	border-left: 49px solid #43505D;
+}
+ul.suggestions li{
+	list-style: none;
+	padding-top: .8rem;
+	padding-bottom: .8rem;
+	margin-left: 1rem;
+}
+.box{
+	background: #e2e2e2;
+	color: #222;
+	height: 230px!important;
+	box-shadow: 0 2px 1px rgba(0, 0, 0, 0.05);
+}
+.item{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.colorize > *:nth-child(odd){
+	background: #f0f0f0;
+}
+.colorize > *:nth-child(even){
+	
+}
+.btn-danger span{
+	transition: transform 1s;
+}
+.btn-danger:hover span{
+	transform: rotate(360deg);
+}
+.row h3{
+	color: #222!important;
 }

@@ -1,6 +1,10 @@
 <div class="row">
-    <div class="col-md-2 dropdown">
-      <button class="btn btn-default dropdown-toggle">
+<div class="row">
+  
+  <div class="container panel">
+  
+    <div class="pull-left dropdown clearfix">
+      <button class="btn btn-lg btn-default dropdown-toggle">
         {{ selectedYear || 'Year' }}
       </button>
           <ul class="dropdown-menu">
@@ -10,8 +14,8 @@
           </ul>
     </div>
 
-    <div class="col-md-2 dropdown">
-      <button class="btn btn-default dropdown-toggle" ng-class="{'disabled': !selectedYear }">
+    <div class="pull-left dropdown clearfix">
+      <button class="btn btn-lg btn-default dropdown-toggle" ng-class="{'disabled': !selectedYear }">
         {{ selectedMonth || 'Month' }}
       </button>
           <ul class="dropdown-menu">
@@ -20,27 +24,35 @@
             </li>
           </ul>
     </div>
-
-    <div class="col-md-offset-4  col-md-2">
-      <button ng-click="reset()" class="btn btn-default btn-danger">
+  
+  <div class="searchBar pull-left col-md-4 clearfix center-block">
+  <form name="searchForm">
+  <div class="input-group">
+  <span class="input-group-addon">  
+  <span class="glyphicon glyphicon-filter"></span>
+  </span>
+    <input
+       type="text"
+           name="Search"
+           ng-model="searchText"
+           ng-change="companySearch()"
+       placeholder="Filter results">
+  </div>
+  </form>
+  <ul ng-if="suggestions" class="suggestions">
+    <li class="suggestion" ng-repeat="suggestion in suggestions">
+        <span class="cursor" ng-click="selectSupplier(suggestion)">{{ suggestion }}</span>
+    </li>
+  </ul>
+</div>
+  
+    <div class="pull-right col-md-2 clearfix">
+      <button ng-click="reset()" class="pull-right btn btn-lg btn-default btn-danger">
+      <span class="glyphicon glyphicon-repeat"></span>
         Reset
       </button>
     </div>
-
-</div>
-
-<div class="searchBar">
-    <form name="searchForm">
-      <input type="text"
-             name="Search"
-             ng-model="searchText"
-             ng-change="companySearch()">
-    </form>
-    <ul ng-if="suggestions" class="suggestions">
-      <li class="suggestion" ng-repeat="suggestion in suggestions">
-          <span class="cursor" ng-click="selectSupplier(suggestion)">{{ suggestion }}</span>
-      </li>
-    </ul>
+  </div>
 </div>
 
 <div ng-show="company">
@@ -105,8 +117,8 @@
        <span class="col-md-1">
         {{ expense.Distance | number}}
        </span>
-       <span class="col-md-1">
-        {{ expense.Votes || 0}}
+       <span class="col-md-1 text-centered">
+        <span class="badge"> {{ expense.Votes || 0}} </span>
        </span>
        <span ng-click="upVote(expense)" class="cursor noselect glyphicon glyphicon-plus col-md-1"></span>
   </div>
