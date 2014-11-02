@@ -57,7 +57,7 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams",
 
                 var count = 0;
                 $scope.expenses.filter(function (expense) {
-                    count += expense.Amount;
+                    count += expense.Amount / 100;
                 });
                 $scope.expenseCount = count;
 
@@ -87,6 +87,8 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams",
                 $scope.chartConfig.series = [{
                     data: superReducedAmounts
                 }]
+
+
             });
         }
         $scope.search();

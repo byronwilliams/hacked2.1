@@ -20,37 +20,37 @@
             </li>
           </ul>
     </div>
-    <div class="col-md-offset-6  col-md-2">
+
+    <div class="col-md-offset-4  col-md-2">
       <button ng-click="reset()" class="btn btn-default btn-danger">
         Reset
       </button>
     </div>
+
+</div>
+
+
+<div class="searchBar">
+    <form name="searchForm">
+      <input type="text"
+             name="Search"
+             ng-model="searchText"
+             ng-change="companySearch()">
+    </form>
+    <ul ng-if="suggestions" class="suggestions">
+      <li class="suggestion" ng-repeat="suggestion in suggestions">
+          <span class="cursor" ng-click="selectSupplier(suggestion)">{{ suggestion }}</span>
+      </li>
+    </ul>
 </div>
 
 <div ng-show="company">
-  <div class="row">
-    <h3>Total Spent <span class="label label-default">£ {{ expenseCount | number}}</span></h3>
-  </div>
-
-  <highchart id="chart1" config="chartConfig"></highchart>
-
+  <h3>Total Spent <span class="label label-default">£ {{ expenseCount | number}}</span></h3>
 </div>
 
-<div class="searchBar">
-  <form name="searchForm">
-    <input type="text"
-           name="Search"
-           ng-model="searchText"
-           ng-change="companySearch()">
-  </form>
-  <ul ng-if="suggestions" class="suggestions">
-    <li class="suggestion" ng-repeat="suggestion in suggestions">
-        <span class="cursor" ng-click="selectSupplier(suggestion)">{{ suggestion }}</span>
-    </li>
-  </ul>
-</div>
+<highchart id="chart1" config="chartConfig"></highchart>
 
-<div class="searchResults">
+<div class="row searchResults">
   <div class="row">
      <h4 class="col-md-2">
       Transaction
@@ -92,7 +92,7 @@
         {{ expense.Date }}
        </span>
        <span class="col-md-2">
-        &pound;{{ expense.Amount | number}}
+        &pound;{{ expense.Amount / 100 | number}}
        </span>
        <span class="col-md-1">
         {{ expense.Distance | number}}
