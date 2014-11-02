@@ -64,7 +64,6 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
     }
 
     var indented, _ = json.MarshalIndent(result, "", "  ")
-    w.Header().Set("Access-Control-Allow-Origin", "*")
     fmt.Fprintf(w, "%s\n", indented)
 }
 
@@ -87,7 +86,6 @@ func LtdCompaniesHandler(w http.ResponseWriter, r *http.Request) {
     }
 
     var indented, _ = json.MarshalIndent(result, "", "  ")
-    w.Header().Set("Access-Control-Allow-Origin", "*")
     fmt.Fprintf(w, "%s\n", indented)
 }
 
@@ -106,7 +104,6 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) {
     var decoder = json.NewDecoder(r.Body)
     decoder.Decode(&t)
 
-    w.Header().Set("Access-Control-Allow-Origin", "*")
     c.Update(bson.M{"_id": t.Id}, t)
 }
 
@@ -116,12 +113,24 @@ func serveSingle(pattern string, filename string) {
     })
 }
 
+func addDefaultHeaders(fn http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        if origin := r.Header.Get("Origin"); origin != "" {
+            w.Header().Set("Access-Control-Allow-Origin", origin)
+        }
+        w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+        w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token")
+        w.Header().Set("Access-Control-Allow-Credentials", "true")
+        fn(w, r)
+    }
+}
+
 func main() {
     http.Handle("/", http.FileServer(http.Dir("./app/")))
     http.Handle("/bower_components/", http.FileServer(http.Dir(".")))
-    http.HandleFunc("/api/companies/", CompaniesHandler)
-    http.HandleFunc("/api/update/", UpdateHandler)
-    http.HandleFunc("/api/ltdcompanies/", LtdCompaniesHandler)
+    http.HandleFunc("/api/companies/", addDefaultHeaders(CompaniesHandler))
+    http.HandleFunc("/api/update/", addDefaultHeaders(UpdateHandler))
+    http.HandleFunc("/api/ltdcompanies/", addDefaultHeaders(LtdCompaniesHandler))
 
     http.ListenAndServe(":8080", nil)
 }
