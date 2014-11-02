@@ -29,9 +29,23 @@
 
 <div ng-show="company">
   <div class="row">
-    <h3>Total Spent <span class="label label-default">£ {{ expenseCount | number}}</span></h3> 
+    <h3>Total Spent <span class="label label-default">£ {{ expenseCount | number}}</span></h3>
   </div>
 
+</div>
+
+<div class="searchBar">
+  <form name="searchForm">
+    <input type="text"
+           name="Search"
+           ng-model="searchText"
+           ng-change="companySearch()">
+  </form>
+  <ul>
+    <li ng-repeat="suggestion in suggestions">
+        <span class="cursor" ng-click="selectSupplier(suggestion)">{{ suggestion }}</span>
+    </li>
+  </ul>
 </div>
 
 <div class="searchResults">

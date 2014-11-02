@@ -28,4 +28,10 @@ angular.module('bathHackApp')
             // update index
             return $http.post('/api/update/',  expense);
         };
+
+        this.searchSupplier = function(search) {
+            return $http.get('/api/search/'+ '?SupplierName=' + search.toUpperCase());
+        }
+
+
 }]);

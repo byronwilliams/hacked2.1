@@ -1,4 +1,7 @@
 'use strict';
+//var plotly = require(['plotly'])
+
+
 
 /**
  * @ngdoc function
@@ -15,6 +18,8 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
 
         $scope.fields = expenseService.dataFields
         $scope.company = $routeParams.company;
+        $scope.searchText = '';
+        $scope.suggestions = [];
 
         $scope.selectYear = function(year) {
             $scope.selectedYear = year;
@@ -31,6 +36,7 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
             $scope.selectedYear = null;
             $scope.selectedMonth = null;
             $location.path('/');
+            $scope.suggestions = [];
             $scope.search();
         };
 
@@ -46,6 +52,24 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
                 });
                 $scope.expenseCount = count;
 
+
+                var times = $scope.expenses.map(function (expense) {
+                    return expense['Date']
+                });
+
+                var amounts = $scope.expenses.map(function (expense) {
+                    return expense['Amount']
+                });
+
+                // generate graph
+                var data = [{x:times, y:amounts, type: 'scatter'}];
+                var layout = {fileopt : "extend", filename : "nodenodenode"};
+
+                //graphs url
+                //plotly.plot(data, layout, function (err, msg) {
+                //    console.log(msg['url']);
+                //});
+
             });
         }
         $scope.search();
@@ -53,6 +77,19 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
         $scope.upVote = function(expense) {
             expense.Votes += 1;
             expenseService.upVoteExpense(expense);
+        }
+
+        $scope.companySearch = function() {
+            expenseService.searchSupplier($scope.searchText).then(function (data) {
+                $scope.suggestions = data['data'];
+            });
+        }
+
+        $scope.selectSupplier= function(supplier) {
+            console.log(supplier)
+            console.log('clicking')
+            $scope.company = supplier;
+            $scope.search();
         }
 
 }]);
