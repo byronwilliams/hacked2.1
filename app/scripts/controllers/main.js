@@ -10,7 +10,8 @@
  * # MainCtrl
  * Controller of the bathHackApp
  */
-angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", "$location", "expenseService",  "$filter",
+angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams",
+    "$location", "expenseService",  "$filter",
     function ($scope, $routeParams, $location, expenseService, $filter) {
 
         $scope.years = ['2011', '2012', '2013', '2014'];
@@ -40,6 +41,15 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
             $scope.search();
         };
 
+        $scope.compareDates = function(a,b) {
+          if (a[0] < b[0])
+             return -1;
+          if (a[0] > b[0])
+            return 1;
+          return 0;
+        }
+
+
         $scope.search = function() {
             // search by year and month
             expenseService.getExpenseData($scope.selectedYear, $scope.selectedMonth, $scope.company)
@@ -52,24 +62,17 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
                 });
                 $scope.expenseCount = count;
 
+                var amounts = $scope.expenses.filter(function(expense){
+                    return expense['Year'] && expense['Month']
 
-                var times = $scope.expenses.map(function (expense) {
-                    return expense['Date']
+                }).map(function (expense) {
+                    return [Date.UTC(expense['Year'], expense['Month'], 1), expense['Amount']]
                 });
 
-                var amounts = $scope.expenses.map(function (expense) {
-                    return expense['Amount']
-                });
-
-                // generate graph
-                var data = [{x:times, y:amounts, type: 'scatter'}];
-                var layout = {fileopt : "extend", filename : "nodenodenode"};
-
-                //graphs url
-                //plotly.plot(data, layout, function (err, msg) {
-                //    console.log(msg['url']);
-                //});
-
+                // TODO reduce 
+                $scope.chartConfig.series = [{
+                    data: amounts.sort($scope.compareDates)
+                }]
             });
         }
         $scope.search();
@@ -98,6 +101,44 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
             $scope.companies = data.sort();
         })
 
+
+        $scope.chartConfig = {
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: 'Spend'
+        },
+        xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: { // don't display the dummy year
+                month: '%b',
+                //year: '%b'
+            },
+            title: {
+                text: 'Date'
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Spend'
+            },
+            min: 0
+        },
+        tooltip: {
+            pointFormat: '{point.x:%e. %b}: {point.y:.2f} m'
+        },
+
+
+        series: [{
+            name: 'Winter 2007-2008',
+            // Define the data points. All series have a dummy year
+            // of 1970/71 in order to be compared on the same x axis. Note
+            // that in JavaScript, months start at 0 for January, 1 for February etc.
+            data: []
+        }]
+        
+        }
 
 }])
 .controller("CompaniesListCtrl", function($scope, expenseService) {
