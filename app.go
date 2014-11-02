@@ -64,6 +64,7 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
     }
 
     var indented, _ = json.MarshalIndent(result, "", "  ")
+    w.Header().Set("Access-Control-Allow-Origin", "*")
     fmt.Fprintf(w, "%s\n", indented)
 }
 
@@ -87,6 +88,7 @@ func LtdCompaniesHandler(w http.ResponseWriter, r *http.Request) {
     }
 
     var indented, _ = json.MarshalIndent(result, "", "  ")
+    w.Header().Set("Access-Control-Allow-Origin", "*")
     fmt.Fprintf(w, "%s\n", indented)
 }
 
@@ -105,6 +107,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) {
     var decoder = json.NewDecoder(r.Body)
     decoder.Decode(&t)
 
+    w.Header().Set("Access-Control-Allow-Origin", "*")
     c.Update(bson.M{"_id": t.Id}, t)
 }
 
