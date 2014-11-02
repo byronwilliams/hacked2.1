@@ -1,8 +1,8 @@
 angular.module('bathHackApp')
     .service('expenseService', ['$http', function ($http) {
 
-        //var urlBase = 'http://expose.112percent.com:8080/api/companies/';
-        var urlBase = '/api/companies/';
+        var urlBase = 'http://expose.112percent.com:8080/api/companies/';
+        //var urlBase = '/api/companies/';
 
         this.dataFields = [
             'BodyName',
@@ -38,6 +38,6 @@ angular.module('bathHackApp')
             yearToUse = year || '';
             monthToUse = month || '';
             companyToUse = company || '';
-            return $http.get("/api/distances/" + '?SupplierName=' + companyToUse + '&Year=' + yearToUse + '&Month=' + monthToUse);
+            return $http.get("http://expose.112percent.com:8080/api/distances/" + '?SupplierName=' + companyToUse + '&Year=' + yearToUse + '&Month=' + monthToUse);
         }
 }]);
