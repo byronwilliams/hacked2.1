@@ -21,6 +21,7 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams",
         $scope.company = $routeParams.company;
         $scope.searchText = '';
         $scope.suggestions = [];
+        $scope.distanceData = [];
 
         $scope.selectYear = function(year) {
             $scope.selectedYear = year;
@@ -69,7 +70,7 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams",
                     return [Date.UTC(expense['Year'], expense['Month'], 1), expense['Amount']]
                 });
 
-                // TODO reduce 
+                // TODO reduce
                 $scope.chartConfig.series = [{
                     data: amounts.sort($scope.compareDates)
                 }]
@@ -137,9 +138,62 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams",
             // that in JavaScript, months start at 0 for January, 1 for February etc.
             data: []
         }]
-        
+
         }
 
+
+
+    // $scope.distanceChartConfig = {
+    //     chart: {
+    //         plotBackgroundColor: null,
+    //         plotBorderWidth: 0,
+    //         plotShadow: false
+    //     },
+    //     title: {
+    //         text: 'Browser<br>shares',
+    //         align: 'center',
+    //         verticalAlign: 'middle',
+    //         y: 0
+    //     },
+    //     tooltip: {
+    //         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    //     },
+    //     plotOptions: {
+    //         pie: {
+    //             dataLabels: {
+    //                 enabled: true,
+    //                 distance: -50,
+    //                 style: {
+    //                     fontWeight: 'bold',
+    //                     color: 'white',
+    //                     textShadow: '0px 1px 2px black'
+    //                 }
+    //             },
+    //             startAngle: -90,
+    //             endAngle: 90,
+    //             center: ['50%', '75%']
+    //         }
+    //     },
+    //     series: [{
+    //         type: 'pie',
+    //         name: 'Browser share',
+    //         innerSize: '50%',
+    //         data: $scope.distanceData
+    //     }]
+    // }
+
+    // expenseService.getDistances($scope.selectedYear, $scope.selectedMonth, $scope.company).success(function(data) {
+    //     var total = Object.keys(data).map(function(k) {
+    //         return data[k];
+    //     }).reduce(function(a, b) {
+    //         return a + b;
+    //     });
+
+    //     $scope.distanceData = Object.keys(data).map(function(k) {
+    //         return [k, (data[k]/total)*100];
+    //     });
+    //     console.log($scope.distanceData);
+    // });
 }])
 .controller("CompaniesListCtrl", function($scope, expenseService) {
     $scope.companies = [];

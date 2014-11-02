@@ -33,4 +33,11 @@ angular.module('bathHackApp')
         this.getCompaniesList = function() {
             return $http.get("http://expose.112percent.com:8080/api/ltdcompanies/");
         }
+
+        this.getDistances = function(year, month, company) {
+            yearToUse = year || '';
+            monthToUse = month || '';
+            companyToUse = company || '';
+            return $http.get("/api/distances" + '?SupplierName=' + companyToUse + '&Year=' + yearToUse + '&Month=' + monthToUse);
+        }
 }]);

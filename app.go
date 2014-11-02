@@ -28,6 +28,15 @@ type Transaction struct {
     Distance float32 `bson:"distance"`
 }
 
+type DistanceResult struct {
+    ZeroToFive int
+    FiveToTen int
+    TenToTwentyFive int
+    TwentyFiveToFifty int
+    FiftyToHundred int
+    HundredPlus int
+}
+
 
 func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -134,13 +143,34 @@ func DistanceHandler(w http.ResponseWriter, r *http.Request) {
 
     r.ParseForm()
 
-    var result = []Transaction{}
+    var result = DistanceResult{}
     var q = bson.M{}
 
-    q["Year"] = r.Form.Get("Year")
-    q["Month"] = r.Form.Get("Month")
+    if len(r.Form.Get("Year")) > 0 {
+        q["Year"] = r.Form.Get("Year")
+    }
 
-    c.Find(q).All(&result)
+    if len(r.Form.Get("Month")) > 0 {
+        q["Month"] = r.Form.Get("Month")
+    }
+
+    q["distance"] = bson.M{"$gt": 0, "$lt": 5}
+    result.ZeroToFive, _ = c.Find(q).Count()
+
+    q["distance"] = bson.M{"$gt": 5, "$lt": 10}
+    result.FiveToTen, _ = c.Find(q).Count()
+
+    q["distance"] = bson.M{"$gt": 10, "$lt": 25}
+    result.TenToTwentyFive, _ = c.Find(q).Count()
+
+    q["distance"] = bson.M{"$gt": 25, "$lt": 50}
+    result.TwentyFiveToFifty, _ = c.Find(q).Count()
+
+    q["distance"] = bson.M{"$gt": 50, "$lt": 100}
+    result.FiftyToHundred, _ = c.Find(q).Count()
+
+    q["distance"] = bson.M{"$gt": 100}
+    result.HundredPlus, _ = c.Find(q).Count()
 
     var indented, _ = json.MarshalIndent(result, "", "  ")
     fmt.Fprintf(w, "%s\n", indented)
@@ -157,6 +187,7 @@ func main() {
     http.Handle("/bower_components/", http.FileServer(http.Dir(".")))
     http.HandleFunc("/api/companies/", CompaniesHandler)
     http.HandleFunc("/api/update/", UpdateHandler)
+    http.HandleFunc("/api/distances/", DistanceHandler)
     http.HandleFunc("/api/ltdcompanies/", LtdCompaniesHandler)
 
     http.ListenAndServe(":8080", nil)
