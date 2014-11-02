@@ -16,6 +16,7 @@ def merge():
 
     for t in transactions:
         sName = t["SupplierName"].replace("LTD", "LIMITED").upper()
+#        t["Amount"] = { "$double" : t["Amount"] }
         if sName in distance_dict:
             d = distance_dict[sName]
             for k in d.keys():

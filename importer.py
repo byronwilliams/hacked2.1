@@ -28,7 +28,7 @@ def run_import():
                     doc = dict(zip(fields, item))
 
                     if len(doc["Amount"]):
-                        doc["Amount"] = float(re.sub("[^0-9]", "", doc["Amount"]))
+                        doc["Amount"] = float(re.sub("[^0-9\.]", "", doc["Amount"]))
 
                     if "Date" in doc.keys():
                         date_parts = doc["Date"].split("/")
@@ -56,7 +56,7 @@ def run_import():
                     docs.append(doc)
 
     with open("out.json", "w") as outf:
-        json.dump(docs, outf)
+        json.dump(docs, outf, indent=2)
 
 
 
