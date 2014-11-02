@@ -34,6 +34,20 @@
 
 </div>
 
+<div class="searchBar">
+  <form name="searchForm">
+    <input type="text"
+           name="Search"
+           ng-model="searchText"
+           ng-change="companySearch()">
+  </form>
+  <ul ng-if="suggestions" class="suggestions">
+    <li class="suggestion" ng-repeat="suggestion in suggestions">
+        <span class="cursor" ng-click="selectSupplier(suggestion)">{{ suggestion }}</span>
+    </li>
+  </ul>
+</div>
+
 <div class="searchResults">
   <div class="row">
      <h4 class="col-md-2">

@@ -77,6 +77,10 @@ body {
   }
 }
 
+.searchBar {
+  padding-top: 20px;
+
+}
 .searchResults {
   padding-top: 40px;
   height: auto;
@@ -88,6 +92,16 @@ body {
   padding-top: 5px;
 }
 
+.suggestions {
+  position: absolute;
+  background-color: white;
+  z-index: 1000;
+  border: 2px solid #eee;
+
+}
+.suggestion {
+  border-bottom: 2px solid #eee;
+}
 .cursor {
   cursor: pointer;
 }

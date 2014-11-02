@@ -82,7 +82,6 @@ func LtdCompaniesHandler(w http.ResponseWriter, r *http.Request) {
     var result []string
 
     var err2 = c.Find(nil).Distinct("SupplierName", &result)
-    fmt.Println(len(result))
     if err2 != nil {
         fmt.Println(err2)
     }
