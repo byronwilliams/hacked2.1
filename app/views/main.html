@@ -41,8 +41,8 @@
            ng-model="searchText"
            ng-change="companySearch()">
   </form>
-  <ul>
-    <li ng-repeat="suggestion in suggestions">
+  <ul ng-if="suggestions" class="suggestions">
+    <li class="suggestion" ng-repeat="suggestion in suggestions">
         <span class="cursor" ng-click="selectSupplier(suggestion)">{{ suggestion }}</span>
     </li>
   </ul>
