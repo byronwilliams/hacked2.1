@@ -119,4 +119,20 @@ angular.module('bathHackApp').controller('MainCtrl', ['$scope', "$routeParams", 
 
         return companys.filter(filterFn);
     };
-}]);
+}])
+.directive("searchresult", function() {
+    return {
+        restrict: "E",
+        templateUrl: "/views/searchresult.html"
+    }
+})
+.directive('bindOnce', function() {
+    return {
+        scope: true,
+        link: function( $scope ) {
+            setTimeout(function() {
+                $scope.$destroy();
+            }, 0);
+        }
+    }
+});

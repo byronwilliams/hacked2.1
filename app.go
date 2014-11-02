@@ -60,7 +60,8 @@ func CompaniesHandler(w http.ResponseWriter, r *http.Request) {
         q["Month"] = r.Form.Get("Month")
     }
 
-    if len(r.Form.Get("SupplierName")) > 0 {
+    fmt.Println((len(r.Form.Get("Year")) > 0 && len(r.Form.Get("Month")) > 0))
+    if len(r.Form.Get("SupplierName")) > 0 || (len(r.Form.Get("Year")) > 0 && len(r.Form.Get("Month")) > 0) {
         c.Find(q).All(&result)
     } else {
         c.Find(q).Limit(100).All(&result)
@@ -114,6 +115,35 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) {
     decoder.Decode(&t)
 
     c.Update(bson.M{"_id": t.Id}, t)
+}
+
+
+func DistanceHandler(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Content-type", "application/json")
+
+    session, err := mgo.Dial("localhost")
+    if err != nil {
+            panic(err)
+    }
+    defer session.Close()
+
+    session.SetMode(mgo.Monotonic, true)
+
+    c := session.DB("hacked").C("transactions")
+
+    r.ParseForm()
+
+    var result = []Transaction{}
+    var q = bson.M{}
+
+    q["Year"] = r.Form.Get("Year")
+    q["Month"] = r.Form.Get("Month")
+
+    c.Find(q).All(&result)
+
+    var indented, _ = json.MarshalIndent(result, "", "  ")
+    fmt.Fprintf(w, "%s\n", indented)
 }
 
 func serveSingle(pattern string, filename string) {

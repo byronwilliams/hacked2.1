@@ -1,7 +1,8 @@
 angular.module('bathHackApp')
     .service('expenseService', ['$http', function ($http) {
 
-        var urlBase = 'http://expose.112percent.com:8080/api/companies/';
+        //var urlBase = 'http://expose.112percent.com:8080/api/companies/';
+        var urlBase = '/api/companies/';
 
         this.dataFields = [
             'BodyName',
